@@ -1,0 +1,21 @@
+# https://render.com — Web Service + optional Postgres
+# 1. Create a Postgres instance on Render, copy Internal Database URL.
+# 2. New Web Service → connect this repo, root directory: backend (or use Dockerfile from backend/).
+# 3. Set env: DATABASE_URL, CORS_ORIGIN_REGEX or CORS_ORIGINS, OPENAI_API_KEY (optional).
+
+services:
+  - type: web
+    name: ailegal-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGIN_REGEX
+        value: https://.*\.vercel\.app
+      - key: OPENAI_API_KEY
+        sync: false

@@ -1,0 +1,69 @@
+export type Lang = "en" | "hi";
+
+export const STRINGS: Record<
+  Lang,
+  Record<string, string>
+> = {
+  en: {
+    appTitle: "AI Cybercrime Complaint Guide",
+    tagline: "India · Mumbai, Delhi, Bengaluru · Informational only",
+    disclaimerShort:
+      "This tool does not provide legal advice. For emergencies call 112/100. Consult a qualified lawyer for your matter.",
+    startNow: "Start now",
+    chooseLang: "Language",
+    chooseCity: "City (optional)",
+    acceptDisclaimer: "I understand this is informational only, not legal advice.",
+    landingHint: "You can describe your incident in English or Hindi.",
+    chatPlaceholder: "Describe what happened…",
+    send: "Send",
+    buildPlan: "Build action plan",
+    actionPlan: "Action plan",
+    confidence: "Confidence",
+    whyAdvice: "Why this advice?",
+    whyStep: "Why this step?",
+    evidenceTitle: "Evidence checklist",
+    cityLinks: "City & portals",
+    clarifyTitle: "We need a bit more detail",
+    continueChat: "Reply in chat with details, then tap Build action plan.",
+    urgencyHigh: "High urgency — prioritize safety and quick reporting.",
+    urgencyCritical: "Critical — secure funds/accounts immediately.",
+    lawyerCta: "Connect to a certified lawyer (coming soon)",
+    thumbsHelpful: "Was this helpful?",
+    thanksFeedback: "Thanks for the feedback.",
+    loading: "Working…",
+    stepOptionalDocs: "Documents",
+  },
+  hi: {
+    appTitle: "एआई साइबर अपराध शिकायत मार्गदर्शन",
+    tagline: "भारत · मुंबई, दिल्ली, बेंगलुरु · केवल सूचनात्मक",
+    disclaimerShort:
+      "यह उपकरण कानूनी सलाह नहीं देता। आपातकाल में 112/100 कॉल करें। अपने मामले के लिए योग्य वकील से सलाह लें।",
+    startNow: "अभी शुरू करें",
+    chooseLang: "भाषा",
+    chooseCity: "शहर (वैकल्पिक)",
+    acceptDisclaimer: "मैं समझता/समझती हूँ कि यह केवल सूचनात्मक है, कानूनी सलाह नहीं।",
+    landingHint: "आप घटना का वर्णन अंग्रेज़ी या हिंदी में कर सकते हैं।",
+    chatPlaceholder: "क्या हुआ, लिखें…",
+    send: "भेजें",
+    buildPlan: "कार्य योजना बनाएं",
+    actionPlan: "कार्य योजना",
+    confidence: "विश्वास स्तर",
+    whyAdvice: "यह सलाह क्यों?",
+    whyStep: "यह कदम क्यों?",
+    evidenceTitle: "साक्ष्य सूची",
+    cityLinks: "शहर व पोर्टल",
+    clarifyTitle: "थोड़ी और जानकारी चाहिए",
+    continueChat: "चैट में विवरण दें, फिर कार्य योजना बनाएं दबाएं।",
+    urgencyHigh: "उच्च तात्कालिकता — सुरक्षा और त्वरित रिपोर्टिंग प्राथमिक।",
+    urgencyCritical: "गंभीर — तुरंत खाता/धन सुरक्षित करें।",
+    lawyerCta: "प्रमाणित वकील से जुड़ें (जल्द आ रहा है)",
+    thumbsHelpful: "क्या यह उपयोगी था?",
+    thanksFeedback: "प्रतिक्रिया के लिए धन्यवाद।",
+    loading: "काम जारी…",
+    stepOptionalDocs: "दस्तावेज़",
+  },
+};
+
+export function t(lang: Lang, key: keyof typeof STRINGS.en): string {
+  return STRINGS[lang][key as string] ?? STRINGS.en[key as string] ?? key;
+}
