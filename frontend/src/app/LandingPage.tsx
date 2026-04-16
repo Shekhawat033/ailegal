@@ -27,20 +27,22 @@ export function LandingPage({
   onStart: () => void;
 }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-      <div className="mx-auto flex max-w-lg flex-col gap-8 px-4 py-16">
-        <header>
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-teal-400/90">{t(lang, "tagline")}</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold text-slate-50">{t(lang, "appTitle")}</h1>
-          <p className="mt-3 text-sm text-slate-400">{t(lang, "landingHint")}</p>
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black">
+      <div className="mx-auto flex max-w-lg flex-col gap-8 px-4 py-16 animate-fade-in-up">
+        <header className="space-y-2">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-sky-400/90">
+            {t(lang, "tagline")}
+          </p>
+          <h1 className="mt-1 font-display text-3xl font-semibold text-white">{t(lang, "appTitle")}</h1>
+          <p className="mt-2 text-sm text-slate-300">{t(lang, "landingHint")}</p>
         </header>
 
-        <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.55)] backdrop-blur">
           <LanguageToggle lang={lang} onChange={setLang} />
-          <label className="block text-sm text-slate-300">
+          <label className="block text-sm text-slate-200">
             {t(lang, "chooseCity")}
             <select
-              className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-sm text-white outline-none transition-colors duration-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-500/60"
               value={city}
               onChange={(e) => setCity(e.target.value)}
             >
@@ -51,13 +53,13 @@ export function LandingPage({
               ))}
             </select>
           </label>
-          <p className="text-xs text-slate-500">{t(lang, "disclaimerShort")}</p>
-          <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-300">
+          <p className="text-xs text-slate-400">{t(lang, "disclaimerShort")}</p>
+          <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-200">
             <input
               type="checkbox"
               checked={disclaimerOk}
               onChange={(e) => setDisclaimerOk(e.target.checked)}
-              className="mt-1 rounded border-slate-600"
+              className="mt-1 rounded border-white/20 bg-black/60 text-sky-400 focus:ring-sky-500"
             />
             <span>{t(lang, "acceptDisclaimer")}</span>
           </label>
@@ -65,13 +67,13 @@ export function LandingPage({
             type="button"
             disabled={!disclaimerOk}
             onClick={onStart}
-            className="w-full rounded-xl bg-teal-500 py-3 text-sm font-semibold text-slate-950 hover:bg-teal-400 disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-full rounded-xl bg-gradient-to-r from-sky-900 via-sky-700 to-sky-500 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(56,189,248,0.35)] transition-all duration-200 hover:from-sky-800 hover:via-sky-600 hover:to-sky-400 hover:shadow-[0_18px_45px_rgba(56,189,248,0.55)] disabled:cursor-not-allowed disabled:opacity-40"
           >
             {t(lang, "startNow")}
           </button>
         </div>
 
-        <p className="text-center text-xs text-slate-600">{t(lang, "lawyerCta")}</p>
+        <p className="text-center text-xs text-slate-500">{t(lang, "lawyerCta")}</p>
       </div>
     </div>
   );

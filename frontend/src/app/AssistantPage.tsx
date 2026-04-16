@@ -150,14 +150,18 @@ export function AssistantPage({
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-      <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur">
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-black/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-          <div>
-            <button type="button" onClick={onBack} className="text-xs text-slate-500 hover:text-teal-400">
+          <div className="space-y-1">
+            <button
+              type="button"
+              onClick={onBack}
+              className="inline-flex items-center text-[0.7rem] font-medium uppercase tracking-[0.18em] text-slate-400 transition-colors duration-150 hover:text-sky-400"
+            >
               ← Back
             </button>
-            <h1 className="font-display text-lg font-semibold text-slate-100">{t(lang, "appTitle")}</h1>
+            <h1 className="font-display text-lg font-semibold text-white">{t(lang, "appTitle")}</h1>
           </div>
           <LanguageToggle lang={lang} onChange={setLang} />
         </div>
@@ -168,10 +172,10 @@ export function AssistantPage({
         )}
       </header>
 
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <section className="flex flex-col gap-4">
-          <h2 className="text-sm font-semibold text-slate-400">Chat</h2>
-          <div className="flex min-h-[12rem] flex-col gap-3 rounded-2xl border border-slate-800 bg-slate-900/30 p-4">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Chat</h2>
+          <div className="flex min-h-[12rem] flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.7)] backdrop-blur-sm transition-transform duration-200 ease-out hover:-translate-y-0.5">
             {messages.map((m, i) => (
               <MessageBubble key={i} role={m.role} text={m.text} />
             ))}
@@ -191,19 +195,21 @@ export function AssistantPage({
             type="button"
             disabled={!lastAnalyze || loading}
             onClick={() => void buildPlan()}
-            className="rounded-xl border border-teal-700 bg-teal-950/40 py-2 text-sm font-medium text-teal-200 hover:bg-teal-950/60 disabled:opacity-40"
+            className="rounded-xl bg-gradient-to-r from-sky-900 via-sky-700 to-sky-500 py-2 text-sm font-medium text-white shadow-[0_10px_30px_rgba(56,189,248,0.35)] transition-all duration-200 hover:from-sky-800 hover:via-sky-600 hover:to-sky-400 hover:shadow-[0_16px_40px_rgba(56,189,248,0.55)] disabled:opacity-40"
           >
             {t(lang, "buildPlan")}
           </button>
         </section>
 
         <section className="flex flex-col gap-4">
-          <h2 className="text-sm font-semibold text-slate-400">{t(lang, "actionPlan")}</h2>
+          <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+            {t(lang, "actionPlan")}
+          </h2>
           {!pathway && (
             <p className="text-sm text-slate-500">{loading ? t(lang, "loading") : "—"}</p>
           )}
           {pathway && (
-            <>
+            <div className="space-y-3 rounded-2xl border border-white/12 bg-black/60 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.9)] backdrop-blur-sm">
               <EvidenceChecklist items={pathway.evidence_checklist} lang={lang} />
               <SourceLinksList cityContacts={pathway.city_contacts} lang={lang} />
               <div className="space-y-3">
@@ -218,7 +224,7 @@ export function AssistantPage({
                 onFeedback={onFeedback}
                 sent={feedbackSent}
               />
-            </>
+            </div>
           )}
         </section>
       </div>
