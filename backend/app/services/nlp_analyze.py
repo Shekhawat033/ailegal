@@ -147,11 +147,20 @@ def _heuristic_analyze(message: str, lang: str, city_param: Optional[str]) -> An
 
 
 async def analyze_message(message: str, lang: str, city: Optional[str]) -> AnalyzeResponse:
+    settings = get_settings()
     det = _detect_input_lang(message, lang)
     settings_lang = "hi" if det == "hi" else lang
 
-    if not get_settings().openai_api_key:
-        return _heuristic_analyze(message, lang, city)
+    if settings.ai_provider == "firebase":
+        raise RuntimeError(
+            "Firebase AI analysis provider is not implemented yet. Wire Firebase AI logic into the backend service layer."
+        )
+    if settings.ai_provider != "openai" or not settings.openai_api_key:
+        if settings.enable_heuristic_fallback:
+            return _heuristic_analyze(message, lang, city)
+        raise RuntimeError(
+            "No AI analysis provider is configured. Configure the selected provider or enable heuristic fallback explicitly."
+        )
 
     try:
         sys_p = extraction_prompt_for_lang(settings_lang)
@@ -185,4 +194,6 @@ async def analyze_message(message: str, lang: str, city: Optional[str]) -> Analy
         )
     except Exception as e:
         log.warning("OpenAI analyze failed, heuristic fallback: %s", e)
-        return _heuristic_analyze(message, lang, city)
+        if settings.enable_heuristic_fallback:
+            return _heuristic_analyze(message, lang, city)
+        raise RuntimeError("AI analysis failed and heuristic fallback is disabled.") from e

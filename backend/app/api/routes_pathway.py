@@ -41,6 +41,8 @@ async def pathway_generate(
             req.city or (req.extraction.entities or {}).get("city_slug"),
             req.user_notes,
         )
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e)) from e
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e)) from e
 

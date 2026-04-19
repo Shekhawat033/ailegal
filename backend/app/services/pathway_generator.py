@@ -18,8 +18,8 @@ from app.services.openai_client import chat_json, pathway_polish_prompt_for_lang
 log = logging.getLogger(__name__)
 
 DISCLAIMER = {
-    "en": "Informational use only — not legal advice. For urgent danger call 112/100. Consult a qualified lawyer for your case.",
-    "hi": "केवल सूचनात्मक — कानूनी सलाह नहीं। तत्काल खतरे पर 112/100 डायल करें। अपने मामले हेतु योग्य वकील से सलाह लें।",
+    "en": "Generated guidance may be incomplete. Review outputs before taking action.",
+    "hi": "उत्पन्न मार्गदर्शन अपूर्ण हो सकता है। कार्रवाई से पहले आउटपुट की समीक्षा करें।",
 }
 
 
@@ -89,7 +89,12 @@ async def generate_pathway(
     city_slug: Optional[str],
     user_notes: Optional[str],
 ) -> PathwayGenerateResponse:
+    settings = get_settings()
     lang = "hi" if lang == "hi" else "en"
+    if not settings.enable_seed_data:
+        raise RuntimeError(
+            "Seeded pathway templates are disabled. Connect a live AI workflow (for example Firebase AI) before generating action plans."
+        )
     issue = extraction.issue_type
     ent = extraction.entities or {}
     slug = city_slug or ent.get("city_slug")

@@ -28,7 +28,8 @@ def init_db() -> None:
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
-        seed_if_empty(db)
+        if settings.enable_seed_data:
+            seed_if_empty(db)
         db.commit()
     except Exception:
         db.rollback()

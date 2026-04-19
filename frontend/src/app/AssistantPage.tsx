@@ -20,6 +20,21 @@ function uuid() {
   return crypto.randomUUID();
 }
 
+function summarizeAnalysis(analysis: AnalyzeResponse, lang: Lang): string {
+  const parts: string[] = [];
+  if (analysis.issue_type && analysis.issue_type !== "unknown") {
+    parts.push(lang === "hi" ? `वर्गीकरण: ${analysis.issue_type}` : `Classification: ${analysis.issue_type}`);
+  }
+  if (analysis.confidence != null) {
+    parts.push(
+      lang === "hi"
+        ? `विश्वास: ${(analysis.confidence * 100).toFixed(0)}%`
+        : `Confidence: ${(analysis.confidence * 100).toFixed(0)}%`,
+    );
+  }
+  return parts.join(" · ") || (lang === "hi" ? "विश्लेषण प्राप्त हुआ।" : "Analysis received.");
+}
+
 export function AssistantPage({
   lang,
   setLang,
@@ -62,15 +77,23 @@ export function AssistantPage({
       });
       setLastAnalyze(analysis);
       const ent = analysis.entities as Record<string, unknown>;
-      const summary =
-        lang === "hi"
-          ? `मुद्दा: ${analysis.issue_type}. विश्वास: ${(analysis.confidence * 100).toFixed(0)}%.`
-          : `Issue: ${analysis.issue_type}. Confidence: ${(analysis.confidence * 100).toFixed(0)}%.`;
+      const summary = summarizeAnalysis(analysis, lang);
       const cityLine = ent.city ? (lang === "hi" ? ` शहर: ${ent.city}.` : ` City: ${ent.city}.`) : "";
       setMessages((m) => [...m, { role: "assistant", text: summary + cityLine }]);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error");
-      setMessages((m) => [...m, { role: "assistant", text: "Request failed." }]);
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          text:
+            e instanceof Error
+              ? e.message
+              : lang === "hi"
+                ? "अनुरोध पूरा नहीं हो सका।"
+                : "The request could not be completed.",
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -96,8 +119,8 @@ export function AssistantPage({
           role: "assistant",
           text:
             lang === "hi"
-              ? "कार्य योजना तैयार। दाएं पैनल में चरण देखें।"
-              : "Action plan ready. See steps on the right.",
+              ? "एक्शन प्लान प्राप्त हुआ। दाएं पैनल में परिणाम देखें।"
+              : "Action plan received. Review the results in the right panel.",
         },
       ]);
     } catch (e) {

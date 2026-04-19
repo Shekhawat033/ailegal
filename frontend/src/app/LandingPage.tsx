@@ -2,13 +2,6 @@ import { LanguageToggle } from "../components/shared/LanguageToggle";
 import type { Lang } from "../i18n/strings";
 import { t } from "../i18n/strings";
 
-const CITIES: { slug: string; label: string }[] = [
-  { slug: "", label: "—" },
-  { slug: "mumbai", label: "Mumbai" },
-  { slug: "delhi", label: "Delhi" },
-  { slug: "bengaluru", label: "Bengaluru" },
-];
-
 export function LandingPage({
   lang,
   setLang,
@@ -41,17 +34,13 @@ export function LandingPage({
           <LanguageToggle lang={lang} onChange={setLang} />
           <label className="block text-sm text-slate-200">
             {t(lang, "chooseCity")}
-            <select
+            <input
               className="mt-1 w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-sm text-white outline-none transition-colors duration-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-500/60"
+              type="text"
+              placeholder={lang === "hi" ? "उदाहरण: जयपुर, दिल्ली, remote" : "Example: Jaipur, Delhi, remote"}
               value={city}
               onChange={(e) => setCity(e.target.value)}
-            >
-              {CITIES.map((c) => (
-                <option key={c.slug || "none"} value={c.slug}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
+            />
           </label>
           <p className="text-xs text-slate-400">{t(lang, "disclaimerShort")}</p>
           <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-200">

@@ -9,6 +9,12 @@ class Settings(BaseSettings):
 
     app_name: str = "AI Cybercrime Complaint Guide — India (MVP)"
     database_url: str = "sqlite:///./ailegal.db"
+    ai_provider: str = "firebase"
+    enable_seed_data: bool = False
+    enable_heuristic_fallback: bool = False
+    firebase_project_id: Optional[str] = None
+    firebase_location: str = "us-central1"
+    firebase_model: str = "gemini-2.5-flash"
     openai_api_key: Optional[str] = None
     openai_model: str = "gpt-4o-mini"
     assistant_model_version: str = "v1"

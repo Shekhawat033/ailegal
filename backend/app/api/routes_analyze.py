@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 from typing import Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.privacy import hash_session_token
@@ -25,7 +25,10 @@ async def analyze(req: AnalyzeRequest, db: Session = Depends(get_db)) -> Analyze
         session = logs_repo.get_or_create_session(
             db, hash_session_token(req.session_token), req.lang
         )
-    out = await analyze_message(req.message, req.lang, req.city)
+    try:
+        out = await analyze_message(req.message, req.lang, req.city)
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e)) from e
     if out.missing_fields:
         out.clarify_question = await best_clarify_question(req.lang, out.missing_fields, out.issue_type)
     ms = int((time.perf_counter() - t0) * 1000)
@@ -47,5 +50,8 @@ async def analyze(req: AnalyzeRequest, db: Session = Depends(get_db)) -> Analyze
 
 @router.post("/clarify", response_model=ClarifyResponse)
 async def clarify(req: ClarifyRequest) -> ClarifyResponse:
-    q = await best_clarify_question(req.lang, req.missing_fields, req.issue_type)
+    try:
+        q = await best_clarify_question(req.lang, req.missing_fields, req.issue_type)
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e)) from e
     return ClarifyResponse(question=q)
