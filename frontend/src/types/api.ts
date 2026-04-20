@@ -5,6 +5,7 @@ export type AnalyzeResponse = {
   confidence: number;
   missing_fields: string[];
   clarify_question?: string | null;
+  chat_response?: string | null;
   input_lang_detected: string;
 };
 

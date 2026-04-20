@@ -4,7 +4,8 @@ intent (file_cybercrime_complaint | legal_guidance),
 issue_type (सटीक एक: account_hacking, payment_fraud, impersonation, cyber_stalking_harassment),
 entities: platform, city (Mumbai, Delhi, Bengaluru या null), urgency (normal|high|critical), amount_inr, incident_time_hint,
 confidence (0 से 1),
-missing_fields (incident_time, amount_lost, platform_name, perpetrator_handle में से या खाली सूची)।
+missing_fields (incident_time, amount_lost, platform_name, perpetrator_handle में से या खाली सूची),
+chat_response (स्ट्रिंग: एक संक्षिप्त, सहानुभूतिपूर्ण प्रतिक्रिया जो उनकी समस्या को स्वीकार करती है, और यदि कोई लापता विवरण है तो पूछती है, अन्यथा पुष्टि करती है कि आप कार्य योजना बनाने के लिए तैयार हैं)।
 
 अस्पष्ट हो तो निकटतम issue_type चुनें और confidence 0.75 से कम रखें।
 ധाराएँ/URL/पुलिस परिणाम गढ़ें नहीं।

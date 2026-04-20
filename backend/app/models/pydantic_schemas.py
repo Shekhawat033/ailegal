@@ -21,6 +21,7 @@ class AnalyzeResponse(BaseModel):
     missing_fields: List[str] = Field(default_factory=list)
     clarify_question: Optional[str] = None
     input_lang_detected: str = "en"
+    chat_response: Optional[str] = None
 
 
 # --- /v1/clarify ---

@@ -135,6 +135,15 @@ def _heuristic_analyze(message: str, lang: str, city_param: Optional[str]) -> An
     if any(x in text_l for x in ["how to", "what should", "क्या करूं", "समझाए"]):
         intent = "legal_guidance"
 
+    if det == "hi":
+        chat_resp = f"मैंने समझा कि आप '{issue}' की रिपोर्ट कर रहे हैं। योजना बनाने के लिए कृपया आगे बढ़ें।"
+        if missing:
+            chat_resp = f"मैंने समझा कि आप '{issue}' की रिपोर्ट कर रहे हैं। कृपया मुझे इन विवरणों के बारे में बताएं: {', '.join(missing)}।"
+    else:
+        chat_resp = f"I understand you are reporting an issue related to '{issue}'. Please proceed to build your action plan."
+        if missing:
+            chat_resp = f"I understand you are reporting an issue related to '{issue}'. Could you also provide: {', '.join(missing)}?"
+
     return AnalyzeResponse(
         intent=intent,
         issue_type=issue,
@@ -143,6 +152,7 @@ def _heuristic_analyze(message: str, lang: str, city_param: Optional[str]) -> An
         missing_fields=missing,
         clarify_question=None,
         input_lang_detected=det,
+        chat_response=chat_resp,
     )
 
 
@@ -183,6 +193,7 @@ async def analyze_message(message: str, lang: str, city: Optional[str]) -> Analy
         # recompute missing merge heuristic
         miss = list(dict.fromkeys(miss + _missing_fields(issue, message.lower(), ent)))
         intent = str(data.get("intent", "file_cybercrime_complaint"))
+        chat_response = data.get("chat_response")
         return AnalyzeResponse(
             intent=intent,
             issue_type=issue,
@@ -191,6 +202,7 @@ async def analyze_message(message: str, lang: str, city: Optional[str]) -> Analy
             missing_fields=miss,
             clarify_question=None,
             input_lang_detected=det,
+            chat_response=str(chat_response) if chat_response else None,
         )
     except Exception as e:
         log.warning("OpenAI analyze failed, heuristic fallback: %s", e)

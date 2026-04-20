@@ -76,10 +76,14 @@ export function AssistantPage({
         session_token: sessionToken,
       });
       setLastAnalyze(analysis);
-      const ent = analysis.entities as Record<string, unknown>;
-      const summary = summarizeAnalysis(analysis, lang);
-      const cityLine = ent.city ? (lang === "hi" ? ` शहर: ${ent.city}.` : ` City: ${ent.city}.`) : "";
-      setMessages((m) => [...m, { role: "assistant", text: summary + cityLine }]);
+      if (analysis.chat_response) {
+        setMessages((m) => [...m, { role: "assistant", text: analysis.chat_response as string }]);
+      } else {
+        const ent = analysis.entities as Record<string, unknown>;
+        const summary = summarizeAnalysis(analysis, lang);
+        const cityLine = ent.city ? (lang === "hi" ? ` शहर: ${ent.city}.` : ` City: ${ent.city}.`) : "";
+        setMessages((m) => [...m, { role: "assistant", text: summary + cityLine }]);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error");
       setMessages((m) => [
