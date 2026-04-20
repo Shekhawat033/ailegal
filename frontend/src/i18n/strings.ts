@@ -5,7 +5,7 @@ export const STRINGS: Record<
   Record<string, string>
 > = {
   en: {
-    appTitle: "AI Cybercrime Complaint Guide",
+    appTitle: "Ai legal assistant",
     tagline: "AI-assisted incident intake",
     disclaimerShort:
       "Outputs may be incomplete and should be reviewed before taking action.",

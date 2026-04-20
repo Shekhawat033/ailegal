@@ -1,0 +1,13 @@
+# Indian Legal Knowledge Base
+# Add legal texts, IT Act sections, IPC sections, and case summaries here.
+
+**Information Technology Act, 2000**
+- Section 66C: Identity theft. Whoever, fraudulently or dishonestly make use of the electronic signature, password or any other unique identification feature of any other person, shall be punished with imprisonment of either description for a term which may extend to three years and shall also be liable to fine which may extend to rupees one lakh.
+- Section 66D: Punishment for cheating by personation by using computer resource. Whoever, by means for any communication device or computer resource cheats by personation, shall be punished with imprisonment of either description for a term which may extend to three years and shall also be liable to fine which may extend to one lakh rupees.
+- Section 66E: Punishment for violation of privacy. Publishing or transmitting images of private area of any person without consent. Punishable with imprisonment up to three years or fine up to two lakh rupees, or both.
+
+**Bharatiya Nyaya Sanhita (BNS) / Indian Penal Code (IPC)**
+- Defamation (IPC Section 499 / BNS Section 356): Whoever, by words either spoken or intended to be read, or by signs or by visible representations, makes or publishes any imputation concerning any person intending to harm, or knowing or having reason to believe that such imputation will harm, the reputation of such person, is said to defame that person.
+- Extortion (IPC Section 383 / BNS Section 308): Intentionally putting a person in fear of any injury to them or another, and thereby dishonestly inducing them to deliver any property or valuable security.
+
+(Note: Add more case laws and acts below)

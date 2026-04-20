@@ -17,6 +17,6 @@ services:
       - key: DATABASE_URL
         sync: false
       - key: CORS_ORIGIN_REGEX
-        value: https://.*\.vercel\.app
+        value: https://.*\.(vercel|web|firebaseapp)\.(app|com)
       - key: OPENAI_API_KEY
         sync: false

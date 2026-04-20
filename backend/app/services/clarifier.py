@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from app.config import get_settings
-from app.services.openai_client import chat_json
+from app.services.gemini_client import chat_json
 
 async def best_clarify_question(lang: str, missing_fields: list[str], issue_type: str) -> str:
     settings = get_settings()
@@ -11,7 +11,7 @@ async def best_clarify_question(lang: str, missing_fields: list[str], issue_type
         if lang == "en"
         else "कृपया ऐसी अतिरिक्त जानकारी साझा करें जिससे सहायक घटना को बेहतर समझ सके।"
     )
-    if settings.ai_provider != "openai" or not settings.openai_api_key:
+    if settings.ai_provider != "firebase" or not settings.gemini_api_key:
         return fallback
     try:
         sys = (

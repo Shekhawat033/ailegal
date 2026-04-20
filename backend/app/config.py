@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    app_name: str = "AI Cybercrime Complaint Guide — India (MVP)"
+    app_name: str = "Ai legal assistant"
     database_url: str = "sqlite:///./ailegal.db"
     ai_provider: str = "firebase"
     enable_seed_data: bool = False
@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     firebase_model: str = "gemini-2.5-flash"
     openai_api_key: Optional[str] = None
     openai_model: str = "gpt-4o-mini"
+    gemini_api_key: Optional[str] = None
     assistant_model_version: str = "v1"
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
     # e.g. https://.*\\.vercel\\.app — use when frontend is on Vercel previews

@@ -13,7 +13,7 @@ from app.models.pydantic_schemas import (
     PathwayStepOut,
 )
 from app.repositories import city_repo, legal_refs_repo, rules_repo, template_repo
-from app.services.openai_client import chat_json, pathway_polish_prompt_for_lang
+from app.services.gemini_client import chat_json, pathway_polish_prompt_for_lang
 
 log = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ async def _maybe_polish_steps(
     allowed_urls: List[str],
     legal_lines: List[str],
 ) -> List[dict[str, Any]]:
-    if not get_settings().openai_api_key or len(steps) == 0:
+    if not get_settings().gemini_api_key or len(steps) == 0:
         return steps
     try:
         sys_p = pathway_polish_prompt_for_lang(lang)

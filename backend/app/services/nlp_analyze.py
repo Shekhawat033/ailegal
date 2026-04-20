@@ -7,7 +7,8 @@ from typing import Any, Optional, Tuple
 from app.config import get_settings
 from app.models.pydantic_schemas import AnalyzeResponse
 from app.services.constants import CITY_ALIASES, V1_CITY_SLUGS, V1_ISSUE_TYPES
-from app.services.openai_client import chat_json, extraction_prompt_for_lang
+from app.services.gemini_client import chat_json, extraction_prompt_for_lang
+from app.services.rag_indexer import search_legal_context
 
 log = logging.getLogger(__name__)
 
@@ -161,20 +162,23 @@ async def analyze_message(message: str, lang: str, city: Optional[str]) -> Analy
     det = _detect_input_lang(message, lang)
     settings_lang = "hi" if det == "hi" else lang
 
-    if settings.ai_provider == "firebase":
-        raise RuntimeError(
-            "Firebase AI analysis provider is not implemented yet. Wire Firebase AI logic into the backend service layer."
-        )
-    if settings.ai_provider != "openai" or not settings.openai_api_key:
+    if settings.ai_provider != "firebase" or not settings.gemini_api_key:
         if settings.enable_heuristic_fallback:
             return _heuristic_analyze(message, lang, city)
         raise RuntimeError(
-            "No AI analysis provider is configured. Configure the selected provider or enable heuristic fallback explicitly."
+            "No AI analysis provider is configured. Please configure GEMINI_API_KEY or enable heuristic fallback explicitly."
         )
 
     try:
+        legal_context = search_legal_context(message)
+        
         sys_p = extraction_prompt_for_lang(settings_lang)
-        data = await chat_json(sys_p, message)
+        # Inject context instructions
+        sys_p += "\n\nCRITICAL RULE: For the 'chat_response' field, you MUST base your advice strictly on the provided Indian Legal Context below. If the context does not address the issue, politely state that you can only provide advice based on Indian Law context provided to you.\n\n"
+        sys_p += f"--- INDIAN LEGAL CONTEXT ---\n{legal_context}\n----------------------------"
+
+        user_p = f"User Complaint: {message}"
+        data = await chat_json(sys_p, user_p)
         issue = str(data.get("issue_type", "account_hacking"))
         if issue not in V1_ISSUE_TYPES:
             issue = _heuristic_issue(message.lower())

@@ -20,23 +20,35 @@ def _read_prompt(name: str) -> str:
 
 async def chat_json(system: str, user: str) -> dict[str, Any]:
     settings = get_settings()
-    if not settings.openai_api_key:
-        raise RuntimeError("OpenAI not configured")
+    if not settings.gemini_api_key:
+        raise RuntimeError("Gemini API key not configured (set GEMINI_API_KEY)")
+    
+    model = settings.firebase_model or "gemini-2.5-flash"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={settings.gemini_api_key}"
+    
+    payload = {
+        "contents": [
+            {
+                "role": "user",
+                "parts": [{"text": user}]
+            }
+        ],
+        "systemInstruction": {
+            "role": "system",
+            "parts": [{"text": system}]
+        },
+        "generationConfig": {
+            "temperature": 0.1,
+            "responseMimeType": "application/json"
+        }
+    }
+    
     async with httpx.AsyncClient(timeout=60.0) as client:
-        r = await client.post(
-            "https://api.openai.com/v1/chat/completions",
-            headers={"Authorization": f"Bearer {settings.openai_api_key}"},
-            json={
-                "model": settings.openai_model,
-                "temperature": 0.1,
-                "messages": [
-                    {"role": "system", "content": system},
-                    {"role": "user", "content": user},
-                ],
-            },
-        )
+        r = await client.post(url, json=payload)
         r.raise_for_status()
-        content = r.json()["choices"][0]["message"]["content"]
+        resp_data = r.json()
+        content = resp_data["candidates"][0]["content"]["parts"][0]["text"]
+        
     m = re.search(r"\{[\s\S]*\}", content)
     if not m:
         raise ValueError("no json in model output")
