@@ -183,7 +183,7 @@ Return ONLY valid JSON with a single key "query" containing the improved query s
         improved_query = str(search_query_data.get("query", message))
         
         # Step 2: Retrieve legal context using the improved query
-        legal_context = search_legal_context(improved_query)
+        legal_context = await search_legal_context(improved_query)
         
         sys_p = extraction_prompt_for_lang(settings_lang)
         # Inject context instructions

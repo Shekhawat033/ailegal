@@ -54,6 +54,26 @@ async def chat_json(system: str, user: str) -> dict[str, Any]:
         raise ValueError("no json in model output")
     return json.loads(m.group())
 
+async def get_embedding(text: str) -> list[float]:
+    settings = get_settings()
+    if not settings.gemini_api_key:
+        raise RuntimeError("Gemini API key not configured")
+        
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key={settings.gemini_api_key}"
+    
+    payload = {
+        "model": "models/text-embedding-004",
+        "content": {
+            "parts": [{"text": text}]
+        }
+    }
+    
+    async with httpx.AsyncClient(timeout=60.0) as client:
+        r = await client.post(url, json=payload)
+        r.raise_for_status()
+        resp_data = r.json()
+        return resp_data["embedding"]["values"]
+
 
 def extraction_prompt_for_lang(lang: str) -> str:
     return _read_prompt("extraction_hi.txt" if lang == "hi" else "extraction_en.txt")
