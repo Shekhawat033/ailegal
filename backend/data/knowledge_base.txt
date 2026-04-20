@@ -9,5 +9,8 @@
 **Bharatiya Nyaya Sanhita (BNS) / Indian Penal Code (IPC)**
 - Defamation (IPC Section 499 / BNS Section 356): Whoever, by words either spoken or intended to be read, or by signs or by visible representations, makes or publishes any imputation concerning any person intending to harm, or knowing or having reason to believe that such imputation will harm, the reputation of such person, is said to defame that person.
 - Extortion (IPC Section 383 / BNS Section 308): Intentionally putting a person in fear of any injury to them or another, and thereby dishonestly inducing them to deliver any property or valuable security.
+- Cyber Stalking (IPC Section 354D / BNS Section 78): Follows a woman and contacts, or attempts to contact such woman to foster personal interaction repeatedly despite a clear indication of disinterest; or monitors the use by a woman of the internet, email or any other form of electronic communication. Punishable with imprisonment up to three years.
+- Insulting Modesty (IPC Section 509 / BNS Section 79): Uttering any word, making any sound or gesture, or exhibiting any object, intending that such word or sound shall be heard, or that such gesture or object shall be seen, by a woman, or intrudes upon the privacy of such woman.
+- Obscenity (Section 67 of IT Act): Publishing or transmitting obscene material in electronic form. Whoever publishes or transmits or causes to be published or transmitted in the electronic form, any material which is lascivious or appeals to the prurient interest.
 
 (Note: Add more case laws and acts below)
