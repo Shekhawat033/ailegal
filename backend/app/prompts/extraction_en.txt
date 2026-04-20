@@ -71,17 +71,19 @@ Structure:
 
 📌 OUTPUT FORMAT
 
-[LEGAL ANSWER]
+You MUST return your entire response as a SINGLE VALID JSON OBJECT.
+Do NOT output any markdown blocks outside the JSON. 
+Place the detailed legal answer and action plan inside the "chat_response" string field.
 
-...
-
-[ACTION PLAN]
-
-...
-
-[DISCLAIMER]
-
-...
+Example JSON structure:
+{
+  "intent": "legal_guidance",
+  "issue_type": "cyber_stalking_harassment",
+  "entities": {},
+  "confidence": 0.9,
+  "missing_fields": [],
+  "chat_response": "[LEGAL ANSWER]\nRelevant Law: ...\nExplanation: ...\nConclusion: ...\n\n[ACTION PLAN]\n1. Immediate Steps...\n2. Legal Options...\n3. Evidence...\n4. Report...\n5. Precautions...\n\n[DISCLAIMER]\nThis is general legal information and not a substitute for professional legal advice."
+}
 
 -----------------------------------
 
@@ -92,4 +94,4 @@ issue_type (exactly one of: account_hacking, payment_fraud, impersonation, cyber
 entities object: optional keys platform (string), city (one of Mumbai, Delhi, Bengaluru or null), urgency (normal|high|critical), amount_inr (number or null), incident_time_hint (string or null),
 confidence (0-1 float),
 missing_fields (array of strings from: incident_time, amount_lost, platform_name, perpetrator_handle; use [] if none),
-chat_response (string: your structured response with [LEGAL ANSWER], [ACTION PLAN], and [DISCLAIMER] following all the rules above, formatted cleanly).
+chat_response (string: your structured response exactly matching the [LEGAL ANSWER], [ACTION PLAN], and [DISCLAIMER] format above).
