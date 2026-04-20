@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     enable_heuristic_fallback: bool = False
     firebase_project_id: Optional[str] = None
     firebase_location: str = "us-central1"
-    firebase_model: str = "gemini-2.5-flash"
+    firebase_model: str = "gemini-1.5-flash"
     openai_api_key: Optional[str] = None
     openai_model: str = "gpt-4o-mini"
     gemini_api_key: Optional[str] = None

@@ -23,7 +23,7 @@ async def chat_json(system: str, user: str) -> dict[str, Any]:
     if not settings.gemini_api_key:
         raise RuntimeError("Gemini API key not configured (set GEMINI_API_KEY)")
     
-    model = settings.firebase_model or "gemini-2.5-flash"
+    model = settings.firebase_model or "gemini-1.5-flash"
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={settings.gemini_api_key}"
     
     payload = {
