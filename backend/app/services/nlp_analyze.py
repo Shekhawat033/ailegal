@@ -225,4 +225,4 @@ Return ONLY valid JSON with a single key "query" containing the improved query s
         log.warning("OpenAI analyze failed, heuristic fallback: %s", e)
         if settings.enable_heuristic_fallback:
             return _heuristic_analyze(message, lang, city)
-        raise RuntimeError("AI analysis failed and heuristic fallback is disabled.") from e
+        raise RuntimeError(f"AI analysis failed: {str(e)} | Type: {type(e)}") from e
