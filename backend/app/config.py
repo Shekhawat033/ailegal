@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     assistant_model_version: str = "v1"
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
     # e.g. https://.*\\.vercel\\.app — use when frontend is on Vercel previews
-    cors_origin_regex: Optional[str] = None
+    cors_origin_regex: str = r"https://.*\.(vercel|web|firebaseapp)\.(app|com)"
 
 
 @lru_cache

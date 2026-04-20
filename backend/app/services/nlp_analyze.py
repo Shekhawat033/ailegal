@@ -170,7 +170,20 @@ async def analyze_message(message: str, lang: str, city: Optional[str]) -> Analy
         )
 
     try:
-        legal_context = search_legal_context(message)
+        # Step 1: Convert raw user message to a precise legal search query
+        search_query_prompt = """
+Convert the user query into a precise Indian legal search query.
+- Add relevant legal keywords (e.g., IPC, CrPC, Constitution of India, Act names)
+- Identify legal intent (e.g., bail, contract breach, property dispute)
+- Keep it concise and retrieval-friendly
+
+Return ONLY valid JSON with a single key "query" containing the improved query string.
+"""
+        search_query_data = await chat_json(search_query_prompt, message)
+        improved_query = str(search_query_data.get("query", message))
+        
+        # Step 2: Retrieve legal context using the improved query
+        legal_context = search_legal_context(improved_query)
         
         sys_p = extraction_prompt_for_lang(settings_lang)
         # Inject context instructions
